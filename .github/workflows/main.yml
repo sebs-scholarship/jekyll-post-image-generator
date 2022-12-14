@@ -81,7 +81,7 @@ jobs:
     if: always()
     steps:
       - name: Notify on success
-        if: needs.build.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
+        if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
         uses: appleboy/discord-action@0.0.3
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
@@ -93,7 +93,7 @@ jobs:
             https://github.com/sebs-scholarship/jekyll-post-image-generator/releases/tag/${{ github.ref_name }}"
 
       - name: Notify on failure
-        if: needs.build.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
+        if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
         uses: appleboy/discord-action@0.0.3
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
