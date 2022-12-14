@@ -1,0 +1,105 @@
+name: Build, Test, and Release
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*' # For v1.0, v0.1.0, etc
+  pull_request:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+concurrency:
+  # Allow concurrent run for main, MR, and tag
+  # Disallow concurrent runs on same MRs, tags, and main (triggered by dispatch, schedule, or push)
+  group: ${{ format('{0}-{1}', github.job, github.ref) }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1.127.0
+        with:
+          ruby-version: '2.5.0'
+          bundler-cache: true
+
+      - name: lint with rubocop
+        run: bundle exec rubocop
+
+  test:
+    needs:
+      - lint
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1.127.0
+        with:
+          ruby-version: '2.5.0'
+          bundler-cache: true
+
+      - name: test with rspec
+        run: bundle exec rspec
+
+  release:
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    steps:
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          name: ${{ format('Release {0}', github.ref_name) }}
+          prerelease: ${{ contains(github.ref_name, '-rc-') }}
+          draft: true
+
+  notify:
+    name: Send job complete notification
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - test
+      - release
+    if: always()
+    steps:
+      - name: Notify on success
+        if: needs.build.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
+        uses: appleboy/discord-action@0.0.3
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          color: "#800000"
+          username: "jekyll-post-image-generator Release Bot"
+          message: >
+            An jekyll-post-image-generator release was deployed:
+            https://github.com/sebs-scholarship/jekyll-post-image-generator/releases/tag/${{ github.ref_name }}"
+
+      - name: Notify on failure
+        if: needs.build.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
+        uses: appleboy/discord-action@0.0.3
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          color: "#800000"
+          username: "jekyll-post-image-generator Release Bot"
+          message: >
+            An jekyll-post-image-generator build failed:
+            https://github.com/sebs-scholarship/jekyll-post-image-generator/actions/runs/${{ github.run_id }}
