@@ -6,16 +6,21 @@ module Jekyll
     def render(context)
       site = context.registers[:site]
 
-      image_path = create_path(output_dir(site.config), get_post(site))
+      post = get_post(site, context)
 
-      image_path if File.exist?(image_path)
+      return nil if post.nil?
+
+      image_path = create_path(output_dir(site.config), post)
+
+      return "/#{image_path}" if File.exist?(image_path)
+
       nil
     end
 
     private
 
-    def get_post(site)
-      site.posts.docs.detect { |p| p.path == context['page']['path'] }
+    def get_post(site, context)
+      site.posts.docs.detect { |p| p.path == File.expand_path(context['page']['path']) }
     end
 
     def create_path(dir, post)
@@ -24,7 +29,7 @@ module Jekyll
 
     def output_dir(config)
       Utils.deep_merge_hashes(
-        DEFAULTS,
+        JekyllPostImageGenerator::DEFAULTS,
         config.fetch('jekyll-post-image-generator', {})
       )['output_directory']
     end
