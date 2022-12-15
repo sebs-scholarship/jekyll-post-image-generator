@@ -54,6 +54,17 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       expect(generator.output_path).to be_nil
     end
 
+    it 'continue if cover image is empty' do
+      site = Site.new(source_dir)
+      doc = Document.new('test')
+      doc.data = doc.data.merge({ 'title' => 'test', 'cover_img' => '' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.output_path).not_to be_nil
+    end
+
     it 'skip if image already exists' do
       generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       mk_tmp_file('test', '.jpg') do |path|
