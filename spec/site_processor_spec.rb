@@ -4,16 +4,16 @@ require 'spec_helper'
 require 'mocks/image_generator'
 require 'mocks/jekyll'
 
-describe(JekyllPostImageGenerator::SiteProcessor) do
+describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
   context 'when loading config' do
     it 'use the default output path' do
       site = Site.new(source_dir)
       doc = Document.new('test')
       doc.data = doc.data.merge({ 'title' => 'test' })
       site.posts.docs << doc
-      path = JekyllPostImageGenerator::DEFAULTS['output_directory']
-      generator = ImageGenerator.new(SOURCE_IMG)
-      processor = JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      path = Jekyll::JekyllPostImageGenerator::DEFAULTS['output_directory']
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
       processor.process(site)
 
       expect(generator.output_path).to eql(File.join(path, 'test.jpg'))
@@ -25,8 +25,8 @@ describe(JekyllPostImageGenerator::SiteProcessor) do
       doc.data = doc.data.merge({ 'title' => 'test' })
       site.posts.docs << doc
       path = 'test1/test2'
-      generator = ImageGenerator.new(SOURCE_IMG)
-      processor = JekyllPostImageGenerator::SiteProcessor.new({ 'output_directory' => path }, generator)
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({ 'output_directory' => path }, generator)
       processor.process(site)
       expect(generator.output_path).to eql(File.join(path, 'test.jpg'))
     end
@@ -37,8 +37,8 @@ describe(JekyllPostImageGenerator::SiteProcessor) do
       site = Site.new(source_dir)
       doc = Document.new('test')
       site.posts.docs << doc
-      generator = ImageGenerator.new(SOURCE_IMG)
-      processor = JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
       processor.process(site)
       expect(generator.output_path).to be_nil
     end
@@ -48,20 +48,23 @@ describe(JekyllPostImageGenerator::SiteProcessor) do
       doc = Document.new('test')
       doc.data = doc.data.merge({ 'title' => 'test', 'cover_img' => 'test' })
       site.posts.docs << doc
-      generator = ImageGenerator.new(SOURCE_IMG)
-      processor = JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
       processor.process(site)
       expect(generator.output_path).to be_nil
     end
 
     it 'skip if image already exists' do
-      generator = ImageGenerator.new(SOURCE_IMG)
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       mk_tmp_file('test', '.jpg') do |path|
         site = Site.new(source_dir)
         doc = Document.new(basename(path))
         doc.data = doc.data.merge({ 'title' => 'test' })
         site.posts.docs << doc
-        processor = JekyllPostImageGenerator::SiteProcessor.new({ 'output_directory' => dirname(path) }, generator)
+        processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new(
+          { 'output_directory' => dirname(path) },
+          generator
+        )
         processor.process(site)
       end
       expect(generator.output_path).to be_nil
@@ -72,8 +75,8 @@ describe(JekyllPostImageGenerator::SiteProcessor) do
       doc = Document.new('test1')
       doc.data = doc.data.merge({ 'title' => 'test' })
       site.posts.docs << doc
-      generator = ImageGenerator.new(SOURCE_IMG)
-      processor = JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
       processor.process(site)
       expect(generator.output_path).to end_with('/test1.jpg')
     end

@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'tempfile'
 require 'securerandom'
-require 'jekyll_post_image_generator'
+require 'jekyll-post-image-generator'
 
 Jekyll.logger.log_level = :error
 

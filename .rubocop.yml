@@ -9,3 +9,7 @@ Metrics/BlockLength:
 Lint/MissingSuper:
   Exclude:
     - 'spec/mocks/**/*'
+
+Naming/FileName:
+  Exclude:
+    - 'lib/jekyll-post-image-generator.rb'

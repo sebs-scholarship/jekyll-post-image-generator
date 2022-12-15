@@ -3,10 +3,10 @@
 require 'spec_helper'
 require 'overwrites/tool'
 
-describe(JekyllPostImageGenerator::ImageGeneratorProperties) do
+describe(Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties) do
   context 'when loading from a dict' do
     it 'uses default values' do
-      properties = JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({})
+      properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({})
 
       expect(properties.font_color).to eql('white')
       expect(properties.font).to eql('montserrat-Thin')
@@ -24,7 +24,7 @@ describe(JekyllPostImageGenerator::ImageGeneratorProperties) do
         'min_pointsize' => 1
       }.freeze
 
-      properties = JekyllPostImageGenerator::ImageGeneratorProperties.from_dict(config)
+      properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict(config)
 
       expect(properties.font_color).to eql('test')
       expect(properties.font).to eql('test')
