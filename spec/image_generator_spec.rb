@@ -107,7 +107,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
     end
 
     it 'wraps on word break if possible for 15 chars @ 10 chars max' do
-      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10})
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10 })
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
       dest = rand_dest
       generator.generate('01234 6789012345678901234 6', dest)
@@ -119,7 +119,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
     end
 
     it 'removes extra whitespace' do
-      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10})
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10 })
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
       dest = rand_dest
       generator.generate(' 01234    6789012345678901234           6 ', dest)
