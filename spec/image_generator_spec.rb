@@ -106,6 +106,30 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('01234')
     end
 
+    it 'wraps on word break if possible for 15 chars @ 10 chars max' do
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10})
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
+      dest = rand_dest
+      generator.generate('01234 6789012345678901234 6', dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
+      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789012345')
+      expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('678901234')
+      expect(get_opt_values(last_command, '-annotate', 2, 3)[1]).to eql('6')
+    end
+
+    it 'removes extra whitespace' do
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10})
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
+      dest = rand_dest
+      generator.generate(' 01234    6789012345678901234           6 ', dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
+      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789012345')
+      expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('678901234')
+      expect(get_opt_values(last_command, '-annotate', 2, 3)[1]).to eql('6')
+    end
+
     it 'uses correct positions for one line @ 100pt min' do
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
       dest = rand_dest

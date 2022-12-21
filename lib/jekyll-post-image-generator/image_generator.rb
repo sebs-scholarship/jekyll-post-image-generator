@@ -65,7 +65,7 @@ module Jekyll
 
       def generate(image_text, output_path)
         pointsize = get_pointsize_for_columns(image_text.length)
-        lines = word_wrap(image_text)
+        lines = word_wrap(minimize_string(image_text))
         positions = get_line_positions(pointsize, lines.length)
         create_image(lines, positions, pointsize, output_path)
       end
@@ -89,15 +89,32 @@ module Jekyll
         position.negative? ? position.to_s : "+#{position}"
       end
 
+      def minimize_string(text)
+        text.strip.squeeze(' ')
+      end
+
       def word_wrap(text)
-        position = 0
+        return [text] if text.length <= @properties.max_columns_per_line
+
         lines = []
-        while position < text.length
-          lines.append(text[position, @properties.max_columns_per_line])
-          position += @properties.max_columns_per_line
-        end
+
+        line_end = get_wrap_location(text)
+
+        lines << text[0..line_end - 1]
+        lines.concat(word_wrap(text[line_end..text.length].strip))
 
         lines
+      end
+
+      def get_wrap_location(text)
+        index = 0
+        line_end = @properties.max_columns_per_line
+        while index < @properties.max_columns_per_line
+          line_end = index if text[index] == ' '
+          index += 1
+        end
+
+        line_end
       end
 
       def get_line_positions(pointsize, lines)
