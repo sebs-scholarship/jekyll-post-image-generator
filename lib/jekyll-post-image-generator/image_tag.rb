@@ -24,7 +24,7 @@ module Jekyll
     end
 
     def create_path(dir, post)
-      File.join(dir, "#{post.basename_without_ext}.jpg")
+      File.join(dir, "#{post.basename_without_ext.sub(/^\d\d\d\d-\d\d-\d\d-/, '')}.jpg")
     end
 
     def output_dir(config)

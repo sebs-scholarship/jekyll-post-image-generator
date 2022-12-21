@@ -92,15 +92,26 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       expect(generator.output_path).to be_nil
     end
 
-    it 'use the page base name as the filename' do
+    it 'use the page base name without date as the filename' do
       site = Site.new(source_dir)
-      doc = Document.new('test1')
+      doc = Document.new('2022-10-05-5-test1')
       doc.data = doc.data.merge({ 'title' => 'test' })
       site.posts.docs << doc
       generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
       processor.process(site)
-      expect(generator.output_path).to end_with('/test1.jpg')
+      expect(generator.output_path).to end_with('/5-test1.jpg')
+    end
+
+    it 'use the page base name as the filename when date absent' do
+      site = Site.new(source_dir)
+      doc = Document.new('5-test1')
+      doc.data = doc.data.merge({ 'title' => 'test' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.output_path).to end_with('/5-test1.jpg')
     end
   end
 end
