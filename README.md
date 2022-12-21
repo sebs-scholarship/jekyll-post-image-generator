@@ -33,18 +33,32 @@ You can modify the behavior of the plugin by changing any of the below propertie
 ```yaml
 jekyll-post-image-generator:
   # The base image to add text to
+  # default: "_background_image.png"
   background_image: _background_image.png
+  
   # The directory to write generated images to
+  # default: "assets/images/title_images/"
   output_directory: assets/images/title_images/
-  # The maximum point size for the title text 
+  
+  # The maximum point size for the title text
+  # default: 200
   max_pointsize: 200
+  
   # The minimum point size for the title text
+  # default: max_pointsize / 2
   min_pointsize: 100
+  
   # The maximum number of columns/characters before wrapping
+  # default: 30
   max_columns_per_line: 30
+  
   # The name of the font for the title text
+  # default: "montserrat-Thin" 
   font: montserrat-Thin
+  
+  
   # The color of the title text
+  # default: "white"
   font_color: white
 ```
 

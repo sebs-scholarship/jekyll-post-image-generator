@@ -32,5 +32,12 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties) do
       expect(properties.max_pointsize).to eql(5)
       expect(properties.min_pointsize).to eql(1)
     end
+
+    it 'uses half max point as min default' do
+      config = { 'max_pointsize' => 6 }.freeze
+
+      properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict(config)
+      expect(properties.min_pointsize).to eql(3)
+    end
   end
 end

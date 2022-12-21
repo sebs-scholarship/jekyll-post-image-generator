@@ -44,7 +44,7 @@ module Jekyll
         ImageGeneratorProperties.new do |properties|
           properties.max_columns_per_line = params.fetch('max_columns_per_line', 30)
           properties.max_pointsize = params.fetch('max_pointsize', 200)
-          properties.min_pointsize = params.fetch('min_pointsize', 100)
+          properties.min_pointsize = params.fetch('min_pointsize', properties.max_pointsize / 2)
           properties.font = params.fetch('font', 'montserrat-Thin')
           properties.font_color = params.fetch('font_color', 'white')
 
