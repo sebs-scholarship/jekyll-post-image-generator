@@ -87,7 +87,7 @@ jobs:
           username: "jekyll-post-image-generator Release Bot"
           message: >
             An jekyll-post-image-generator release was deployed:
-            https://github.com/sebs-scholarship/jekyll-post-image-generator/releases/tag/${{ github.ref_name }}"
+            https://github.com/sebs-scholarship/jekyll-post-image-generator/releases/tag/${{ github.ref_name }}
 
       - name: Notify on failure
         if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
