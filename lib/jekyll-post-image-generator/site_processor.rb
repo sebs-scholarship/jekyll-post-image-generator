@@ -44,8 +44,11 @@ module Jekyll
 
       def can_generate?(doc)
         data = doc.data
-        (!data.key?('cover_img') || data['cover_img'].nil? || data['cover_img'].strip.empty?) \
-          && data.key?('title') && !File.exist?(output_path(doc.basename_without_ext.sub(/^\d\d\d\d-\d\d-\d\d-/, '')))
+        !set?('cover_img', data) && set?('title', data) && !File.exist?(output_path(doc.basename_without_ext))
+      end
+
+      def set?(key, data)
+        data.key?(key) && !data[key].nil? && !data[key].strip.empty?
       end
     end
   end

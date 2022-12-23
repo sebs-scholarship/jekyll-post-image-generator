@@ -43,6 +43,28 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       expect(generator.output_path).to be_nil
     end
 
+    it 'skip if title is empty' do
+      site = Site.new(source_dir)
+      doc = Document.new('test')
+      doc.data = doc.data.merge({ 'title' => ' ' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.output_path).to be_nil
+    end
+
+    it 'skip if title is nil' do
+      site = Site.new(source_dir)
+      doc = Document.new('test')
+      doc.data = doc.data.merge({ 'title' => nil })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.output_path).to be_nil
+    end
+
     it 'skip if cover image is set' do
       site = Site.new(source_dir)
       doc = Document.new('test')
