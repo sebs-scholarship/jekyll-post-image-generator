@@ -64,8 +64,8 @@ module Jekyll
       end
 
       def generate(image_text, output_path)
-        pointsize = get_pointsize_for_columns(image_text.length)
         lines = word_wrap(minimize_string(image_text))
+        pointsize = get_pointsize_for_lines(lines)
         positions = get_line_positions(pointsize, lines.length)
         create_image(lines, positions, pointsize, output_path)
       end
@@ -130,6 +130,17 @@ module Jekyll
         end
 
         positions
+      end
+
+      def get_pointsize_for_lines(lines)
+        size = get_pointsize_for_columns(lines[0].length)
+
+        lines.each do |line|
+          line_size = get_pointsize_for_columns(line.length)
+          size = line_size unless line_size >= size
+        end
+
+        size
       end
 
       def get_pointsize_for_columns(columns)

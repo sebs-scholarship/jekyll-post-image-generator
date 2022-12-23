@@ -87,6 +87,22 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       expect(get_opt_value(last_command, '-pointsize')).to eql('100')
     end
 
+    it 'uses the proper pointsize for 36 chars (20 space 15) @ 30 chars max, 200pt max, 100pt min' do
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
+      dest = rand_dest
+      generator.generate('01234567890123456789 123456789012345', dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_value(last_command, '-pointsize')).to eql('166')
+    end
+
+    it 'uses the proper pointsize for 36 chars (15 space 20) @ 30 chars max, 200pt max, 100pt min' do
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
+      dest = rand_dest
+      generator.generate('012345678901234 67890123456789012345', dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_value(last_command, '-pointsize')).to eql('166')
+    end
+
     it 'uses two wrapped lines for 35 chars @ 30 chars max' do
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
       dest = rand_dest
