@@ -17,7 +17,7 @@ module Jekyll
           DEFAULTS,
           config.fetch('jekyll-post-image-generator', {})
         )
-        @processor = processor.nil? ? SiteProcessor.new(config) : processor
+        @processor = processor || SiteProcessor.new(config)
       end
 
       def generate(site)
