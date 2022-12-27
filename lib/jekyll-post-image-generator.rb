@@ -13,7 +13,7 @@ module Jekyll
       'output_directory' => File.join('assets', 'images'),
       'max_pointsize' => 200,
       'max_columns_per_line' => 30,
-      'font' => 'montserrat-Thin',
+      'font' => 'montserrat-Light',
       'font_color' => 'white'
     }.freeze
   end

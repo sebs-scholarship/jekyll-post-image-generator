@@ -53,8 +53,8 @@ jekyll-post-image-generator:
   max_columns_per_line: 30
   
   # The name of the font for the title text
-  # default: "montserrat-Thin" 
-  font: montserrat-Thin
+  # default: "montserrat-Light" 
+  font: montserrat-Light
   
   
   # The color of the title text

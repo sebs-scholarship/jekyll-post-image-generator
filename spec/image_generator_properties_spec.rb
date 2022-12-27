@@ -9,7 +9,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties) do
       properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({})
 
       expect(properties.font_color).to eql('white')
-      expect(properties.font).to eql('montserrat-Thin')
+      expect(properties.font).to eql('montserrat-Light')
       expect(properties.max_columns_per_line).to eql(30)
       expect(properties.max_pointsize).to eql(200)
       expect(properties.min_pointsize).to eql(100)

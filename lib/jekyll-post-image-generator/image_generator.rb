@@ -10,7 +10,7 @@ module Jekyll
         max_columns_per_line: 30,
         max_pointsize: 200,
         min_pointsize: max_pointsize / 2,
-        font: 'montserrat-Thin',
+        font: 'montserrat-Light',
         font_color: 'white'
       )
         @max_pointsize = max_pointsize
@@ -45,7 +45,7 @@ module Jekyll
           properties.max_columns_per_line = params.fetch('max_columns_per_line', 30)
           properties.max_pointsize = params.fetch('max_pointsize', 200)
           properties.min_pointsize = params.fetch('min_pointsize', properties.max_pointsize / 2)
-          properties.font = params.fetch('font', 'montserrat-Thin')
+          properties.font = params.fetch('font', 'montserrat-Light')
           properties.font_color = params.fetch('font_color', 'white')
 
           properties
