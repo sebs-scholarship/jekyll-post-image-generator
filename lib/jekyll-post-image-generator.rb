@@ -10,7 +10,7 @@ module Jekyll
   module JekyllPostImageGenerator
     DEFAULTS = {
       'background_image' => '_background_image.png',
-      'output_directory' => File.join('assets', 'images', 'title_images'),
+      'output_directory' => File.join('assets', 'images'),
       'max_pointsize' => 200,
       'max_columns_per_line' => 30,
       'font' => 'montserrat-Thin',

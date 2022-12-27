@@ -21,7 +21,7 @@ module Jekyll
       end
 
       def generate(site)
-        output_dir = @config.fetch('output_directory', File.join('assets', 'images', 'title_images'))
+        output_dir = @config.fetch('output_directory', File.join('assets', 'images'))
         FileUtils.mkdir_p(output_dir) unless File.exist?(output_dir)
         @processor.process(site)
       end

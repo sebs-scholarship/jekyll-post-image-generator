@@ -17,7 +17,7 @@ module Jekyll
       )
         @config = config
         @generator = generator
-        @output_dir = config.fetch('output_directory', File.join('assets', 'images', 'title_images'))
+        @output_dir = config.fetch('output_directory', File.join('assets', 'images'))
       end
 
       def process(site)

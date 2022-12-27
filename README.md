@@ -37,8 +37,8 @@ jekyll-post-image-generator:
   background_image: _background_image.png
   
   # The directory to write generated images to
-  # default: "assets/images/title_images/"
-  output_directory: assets/images/title_images/
+  # default: "assets/images/"
+  output_directory: assets/images/
   
   # The maximum point size for the title text
   # default: 200
