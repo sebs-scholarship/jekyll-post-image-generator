@@ -75,7 +75,7 @@ jobs:
       - lint
       - test
       - release
-    if: always()
+    if: always() && (github.ref_type == 'tag' || github.ref_name == 'main')
     steps:
       - name: Notify on success
         if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
