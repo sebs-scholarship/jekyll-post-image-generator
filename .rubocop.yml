@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.6.10
+  TargetRubyVersion: 2.7.0
 
 Metrics/BlockLength:
   IgnoredMethods: ['describe', 'context']
