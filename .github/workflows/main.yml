@@ -27,7 +27,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1.134.0
         with:
-          ruby-version: '2.6.10'
+          ruby-version: '2.7.7'
           bundler-cache: true
 
       - name: lint with rubocop
@@ -47,7 +47,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1.134.0
         with:
-          ruby-version: '2.6.10'
+          ruby-version: '2.7.7'
           bundler-cache: true
 
       - name: test with rspec
