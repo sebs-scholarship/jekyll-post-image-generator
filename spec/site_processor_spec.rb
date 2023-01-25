@@ -146,5 +146,27 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       processor.process(site)
       expect(generator.image_text).to eql('test')
     end
+
+    it 'use the page cover image text override as the image text when present' do
+      site = Site.new(source_dir)
+      doc = Document.new('test1')
+      doc.data = doc.data.merge({ 'title' => 'test1', 'cover_image_text' => 'test2' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.image_text).to eql('test2')
+    end
+
+    it 'use the page cover image text override as the image text when title absent' do
+      site = Site.new(source_dir)
+      doc = Document.new('test1')
+      doc.data = doc.data.merge({ 'cover_image_text' => 'test' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.image_text).to eql('test')
+    end
   end
 end

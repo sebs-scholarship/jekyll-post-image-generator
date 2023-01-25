@@ -27,6 +27,7 @@ module Jekyll
           next unless can_generate?(doc)
 
           Jekyll.logger.info('Jekyll Post Image Generator:', "Generating image for #{source_basename}")
+          # TODO: Use 'cover_image_text' data over title if present
           @generator.generate(doc.data['title'], path)
           site.static_files << Jekyll::StaticFile.new(site, site.source, @output_dir, fullname(source_basename))
         end
