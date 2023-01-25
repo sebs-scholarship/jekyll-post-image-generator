@@ -135,5 +135,16 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       processor.process(site)
       expect(generator.output_path).to end_with('/5-test1.jpg')
     end
+
+    it 'use the page title as the image text' do
+      site = Site.new(source_dir)
+      doc = Document.new('test1')
+      doc.data = doc.data.merge({ 'title' => 'test' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.image_text).to eql('test')
+    end
   end
 end
