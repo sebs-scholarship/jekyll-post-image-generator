@@ -85,19 +85,41 @@ it must first be deleted.
 
 ## Development
 
-### Install Dependencies
+### Containerized Linting and Testing
+Follow these instructions to lint and tests using the provided Docker scripts.
+
+#### Install Dependencies
+Before running the scripts, you must have [Docker](https://www.docker.com/products/docker-desktop/) installed.
+
+#### Running the scripts
+To run the linting and testing scripts, run one of the following commands:
+
+**macOS:**
+```bash
+scripts/test
+```
+
+**Windows:**
+```batch
+scripts\test
+```
+
+### Native Linting and Testing
+Follow these instructions to lint and tests natively.
+
+#### Install Dependencies
 Assuming you have [Bundler](https://bundler.io/) installed, to install dependencies, run the following command:
 ```bash
 bundle install
 ```
 
-### Lint
+#### Lint
 To lint the project, run the following command:
 ```bash
 bundle exec rubocop
 ```
 
-### Test
+#### Test
 To test the project, run the following command:
 ```bash
 bundle exec rspec
