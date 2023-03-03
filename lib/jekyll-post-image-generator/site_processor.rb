@@ -27,8 +27,8 @@ module Jekyll
           next unless can_generate?(doc)
 
           Jekyll.logger.info('Jekyll Post Image Generator:', "Generating image for #{source_basename}")
-          # TODO: Use 'cover_image_text' data over title if present
-          @generator.generate(doc.data['title'], path)
+          text = set?('cover_image_text', doc.data) ? doc.data['cover_image_text'] : doc.data['title']
+          @generator.generate(text, path)
           site.static_files << Jekyll::StaticFile.new(site, site.source, @output_dir, fullname(source_basename))
         end
       end
@@ -45,7 +45,9 @@ module Jekyll
 
       def can_generate?(doc)
         data = doc.data
-        !set?('cover_img', data) && set?('title', data) && !File.exist?(output_path(doc.basename_without_ext))
+        !set?('cover_img', data) \
+        && (set?('title', data) || set?('cover_image_text', data)) \
+        && !File.exist?(output_path(doc.basename_without_ext))
       end
 
       def set?(key, data)
