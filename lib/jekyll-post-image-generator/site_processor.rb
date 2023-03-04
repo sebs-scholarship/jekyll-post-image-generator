@@ -22,17 +22,23 @@ module Jekyll
 
       def process(site)
         site.posts.docs.each do |doc|
-          source_basename = doc.basename_without_ext
-          path = output_path(source_basename)
           next unless can_generate?(doc)
 
+          source_basename = doc.basename_without_ext
+
           Jekyll.logger.info('Jekyll Post Image Generator:', "Generating image for #{source_basename}")
-          @generator.generate(doc.data['title'], path)
+          generate(doc.data, source_basename)
+
           site.static_files << Jekyll::StaticFile.new(site, site.source, @output_dir, fullname(source_basename))
         end
       end
 
       private
+
+      def generate(data, source_basename)
+        text = set?('cover_image_text', data) ? data['cover_image_text'] : data['title']
+        @generator.generate(text, output_path(source_basename))
+      end
 
       def fullname(basename)
         "#{basename.sub(/^\d\d\d\d-\d\d-\d\d-/, '')}.jpg"
@@ -44,7 +50,9 @@ module Jekyll
 
       def can_generate?(doc)
         data = doc.data
-        !set?('cover_img', data) && set?('title', data) && !File.exist?(output_path(doc.basename_without_ext))
+        !set?('cover_img', data) \
+        && (set?('title', data) || set?('cover_image_text', data)) \
+        && !File.exist?(output_path(doc.basename_without_ext))
       end
 
       def set?(key, data)

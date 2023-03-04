@@ -71,7 +71,15 @@ title: Example
 ```
 If no title is present, no image will be generated.
 
-You can use the following liquid tag to get the path to the generated image (or false):
+If you prefer not to use the page's title, or the title is absent, you can
+override the text with the `cover_image_text` property.
+```text
+---
+cover_image_text: Example
+---
+```
+
+You can use the following liquid tag to get the path to the generated image (or false if not generated):
 ```text
 {% generated_image_path %}
 ```
