@@ -134,6 +134,16 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       expect(get_opt_values(last_command, '-annotate', 2, 3)[1]).to eql('6')
     end
 
+    it 'does not start newline on a space for 10 chars @ 5 chars max' do
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 5 })
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
+      dest = rand_dest
+      generator.generate('01234 6789', dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
+      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789')
+    end
+
     it 'removes extra whitespace' do
       config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 10 })
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
