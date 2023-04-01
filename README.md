@@ -99,7 +99,7 @@ You can use the following liquid tag to get the path to the generated image (or 
 {% generated_image_path %}
 ```
 
-Additionally, if the `cover_img` property is present, no image will
+Additionally, if the `cover_image` property is present, no image will
 be generated. This is to allow an author to explicitly set a cover image
 for a post that overrides the generated image.
 

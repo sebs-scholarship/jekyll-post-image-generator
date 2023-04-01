@@ -50,7 +50,7 @@ module Jekyll
 
       def can_generate?(doc)
         data = doc.data
-        !set?('cover_img', data) \
+        !set?('cover_image', data) \
         && (set?('title', data) || set?('cover_image_text', data)) \
         && !File.exist?(output_path(doc.basename_without_ext))
       end

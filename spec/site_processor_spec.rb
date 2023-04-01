@@ -68,7 +68,7 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
     it 'skip if cover image is set' do
       site = Site.new(source_dir)
       doc = Document.new('test')
-      doc.data = doc.data.merge({ 'title' => 'test', 'cover_img' => 'test' })
+      doc.data = doc.data.merge({ 'title' => 'test', 'cover_image' => 'test' })
       site.posts.docs << doc
       generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
@@ -79,7 +79,7 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
     it 'continue if cover image is empty' do
       site = Site.new(source_dir)
       doc = Document.new('test')
-      doc.data = doc.data.merge({ 'title' => 'test', 'cover_img' => '' })
+      doc.data = doc.data.merge({ 'title' => 'test', 'cover_image' => '' })
       site.posts.docs << doc
       generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
@@ -90,7 +90,7 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
     it 'continue if cover image is nil' do
       site = Site.new(source_dir)
       doc = Document.new('test')
-      doc.data = doc.data.merge({ 'title' => 'test', 'cover_img' => nil })
+      doc.data = doc.data.merge({ 'title' => 'test', 'cover_image' => nil })
       site.posts.docs << doc
       generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
       processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
