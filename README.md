@@ -80,17 +80,17 @@ cover_image_text: Example
 ```
 
 Both `title` and `cover_image_text` may contain [special formatting](https://imagemagick.org/script/escape.php), which
-adds support for line breaks.
+adds support for line breaks. (Note the escaped literal backslash)
 ```text
 ---
-cover_image_text: Title:\nSubtitle
+cover_image_text: 'This is a test post\nProceed with caution\neverybody\\\nobody'
 ---
 ```
 
-To use a literal backslash:
+Or alternatively:
 ```text
 ---
-cover_image_text: Everybody\\nobody
+cover_image_text: "This is a test post\nProceed with caution\neverybody\\\\nobody"
 ---
 ```
 

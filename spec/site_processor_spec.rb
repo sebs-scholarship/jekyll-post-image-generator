@@ -168,5 +168,16 @@ describe(Jekyll::JekyllPostImageGenerator::SiteProcessor) do
       processor.process(site)
       expect(generator.image_text).to eql('test')
     end
+
+    it 'unescapes special formatting characters' do
+      site = Site.new(source_dir)
+      doc = Document.new('test1')
+      doc.data = doc.data.merge({ 'cover_image_text' => 'test1\ntest2\ntest3\\\test4' })
+      site.posts.docs << doc
+      generator = Jekyll::JekyllPostImageGenerator::MockImageGenerator.new(SOURCE_IMG)
+      processor = Jekyll::JekyllPostImageGenerator::SiteProcessor.new({}, generator)
+      processor.process(site)
+      expect(generator.image_text).to eql("test1\ntest2\ntest3\\test4")
+    end
   end
 end

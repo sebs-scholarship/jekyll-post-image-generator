@@ -37,7 +37,7 @@ module Jekyll
 
       def generate(data, source_basename)
         text = set?('cover_image_text', data) ? data['cover_image_text'] : data['title']
-        @generator.generate(text, output_path(source_basename))
+        @generator.generate("\"#{text}\"".undump, output_path(source_basename))
       end
 
       def fullname(basename)
