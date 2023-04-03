@@ -79,6 +79,21 @@ cover_image_text: Example
 ---
 ```
 
+Both `title` and `cover_image_text` may contain [special formatting](https://imagemagick.org/script/escape.php), which
+adds support for line breaks.
+```text
+---
+cover_image_text: Title:\nSubtitle
+---
+```
+
+To use a literal backslash:
+```text
+---
+cover_image_text: Everybody\\nobody
+---
+```
+
 You can use the following liquid tag to get the path to the generated image (or false if not generated):
 ```text
 {% generated_image_path %}

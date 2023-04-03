@@ -64,33 +64,36 @@ module Jekyll
       end
 
       def generate(image_text, output_path)
-        lines = word_wrap(minimize_string(image_text))
+        lines = break_long_lines(image_text.strip.squeeze(' ').lines.map(&:chomp))
         pointsize = get_pointsize_for_lines(lines)
-        positions = get_line_positions(pointsize, lines.length)
-        create_image(lines, positions, pointsize, output_path)
+        create_image(lines.join("\n"), pointsize, output_path)
       end
 
       private
 
-      def create_image(lines, positions, pointsize, output_path)
+      def create_image(text, pointsize, output_path)
         MiniMagick::Tool::Magick.new do |magick|
           magick << @base_image
-          magick.gravity('center').fill(@properties.font_color).pointsize(pointsize).font(@properties.font)
 
-          positions.each_with_index do |position, index|
-            magick.annotate("+0#{position_string(position)}", lines[index])
-          end
+          magick.gravity('center').fill(@properties.font_color).pointsize(pointsize).font(@properties.font)\
+                .annotate('+0+0', text)
 
           magick << output_path
         end
       end
 
-      def position_string(position)
-        position.negative? ? position.to_s : "+#{position}"
-      end
+      def break_long_lines(lines)
+        new_lines = []
 
-      def minimize_string(text)
-        text.strip.squeeze(' ')
+        lines.each do |line|
+          if line.length <= @properties.max_columns_per_line
+            new_lines << line
+          else
+            new_lines.concat(word_wrap(line))
+          end
+        end
+
+        new_lines
       end
 
       def word_wrap(text)
@@ -117,22 +120,9 @@ module Jekyll
         line_end
       end
 
-      def get_line_positions(pointsize, lines)
-        positions = []
-        index = 0
-
-        offset = (pointsize / 2) * ((lines - 1) % 2)
-        start = offset - (lines / 2 * pointsize)
-        while index < lines
-          positions.append(start)
-          start += pointsize
-          index += 1
-        end
-
-        positions
-      end
-
       def get_pointsize_for_lines(lines)
+        return @properties.max_pointsize if lines.empty?
+
         size = get_pointsize_for_columns(lines[0].length)
 
         lines.each do |line|
