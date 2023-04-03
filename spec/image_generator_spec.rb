@@ -108,8 +108,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       dest = rand_dest
       generator.generate('01234567890123456789012345678901234', dest)
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('012345678901234567890123456789')
-      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('01234')
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to eql("012345678901234567890123456789\n01234")
     end
 
     it 'uses three wrapped lines for 65 chars @ 30 chars max' do
@@ -117,9 +116,8 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       dest = rand_dest
       generator.generate('01234567890123456789012345678901234567890123456789012345678901234', dest)
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('012345678901234567890123456789')
-      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('012345678901234567890123456789')
-      expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('01234')
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to\
+        eql("012345678901234567890123456789\n012345678901234567890123456789\n01234")
     end
 
     it 'wraps on word break if possible for 15 chars @ 10 chars max' do
@@ -128,10 +126,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       dest = rand_dest
       generator.generate('01234 6789012345678901234 6', dest)
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
-      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789012345')
-      expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('678901234')
-      expect(get_opt_values(last_command, '-annotate', 2, 3)[1]).to eql('6')
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to eql("01234\n6789012345\n678901234\n6")
     end
 
     it 'does not start newline on a space for 10 chars @ 5 chars max' do
@@ -140,8 +135,16 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       dest = rand_dest
       generator.generate('01234 6789', dest)
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
-      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789')
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to eql("01234\n6789")
+    end
+
+    it 'respects line breaks for 10 chars @ 5 chars max' do
+      config = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_dict({ 'max_columns_per_line' => 5 })
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG, config)
+      dest = rand_dest
+      generator.generate("01\n23456789", dest)
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to eql("01\n23456\n789")
     end
 
     it 'removes extra whitespace' do
@@ -150,37 +153,15 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       dest = rand_dest
       generator.generate(' 01234    6789012345678901234           6 ', dest)
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_values(last_command, '-annotate', 2, 0)[1]).to eql('01234')
-      expect(get_opt_values(last_command, '-annotate', 2, 1)[1]).to eql('6789012345')
-      expect(get_opt_values(last_command, '-annotate', 2, 2)[1]).to eql('678901234')
-      expect(get_opt_values(last_command, '-annotate', 2, 3)[1]).to eql('6')
+      expect(get_opt_values(last_command, '-annotate', 2)[1]).to eql("01234\n6789012345\n678901234\n6")
     end
 
-    it 'uses correct positions for one line @ 100pt min' do
+    it 'centers text' do
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
       dest = rand_dest
       generator.generate('0123456789', dest)
       last_command = MiniMagick::Tool.last_instance.command
       expect(get_opt_value(last_command, '-annotate')).to eql('+0+0')
-    end
-
-    it 'uses correct positions for two wrapped lines @ 100pt min' do
-      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
-      dest = rand_dest
-      generator.generate('01234567890123456789012345678901234', dest)
-      last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_value(last_command, '-annotate')).to eql('+0-50')
-      expect(get_opt_value(last_command, '-annotate', 1)).to eql('+0+50')
-    end
-
-    it 'uses correct positions for three wrapped lines @ 100pt min' do
-      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(SOURCE_IMG)
-      dest = rand_dest
-      generator.generate('01234567890123456789012345678901234567890123456789012345678901234', dest)
-      last_command = MiniMagick::Tool.last_instance.command
-      expect(get_opt_value(last_command, '-annotate')).to eql('+0-100')
-      expect(get_opt_value(last_command, '-annotate', 1)).to eql('+0+0')
-      expect(get_opt_value(last_command, '-annotate', 2)).to eql('+0+100')
     end
   end
 end
