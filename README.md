@@ -8,10 +8,10 @@ Automatically generate images for posts on your Jekyll site.
 ## Getting Started
 
 ### Requirements
-In order to run this gem, you must have [ImageMagick](https://imagemagick.org/) installed. Please visit
+In order to run this gem, you must have [ImageMagick](https://imagemagick.org/) installed.
 
 Additionally, make sure the default font, [Montserrat](https://fonts.google.com/specimen/Montserrat), is downloaded and installed, or configure the plugin
-with a different font.
+with a different font (see below).
 
 ### Add to your Gemfile
 ```ruby
