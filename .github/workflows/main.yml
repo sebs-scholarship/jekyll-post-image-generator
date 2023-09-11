@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1.152.0
@@ -42,7 +42,7 @@ jobs:
         os: [ ubuntu-latest, windows-latest ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1.152.0
