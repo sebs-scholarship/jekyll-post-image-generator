@@ -79,7 +79,7 @@ jobs:
     steps:
       - name: Notify on success
         if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
-        uses: appleboy/discord-action@0.0.3
+        uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
@@ -91,7 +91,7 @@ jobs:
 
       - name: Notify on failure
         if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
-        uses: appleboy/discord-action@0.0.3
+        uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
