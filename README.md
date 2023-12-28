@@ -129,42 +129,6 @@ Or alternatively:
 ---
 cover_image_text: "This is a test post\nProceed with caution\neverybody\\\\\\\\nobody"
 ---
-
-### Configure Pages
-This plugin works by reading the `title` property from the front matter of your posts.
-```text
----
-title: Example
----
-```
-If no title is present, no image will be generated.
-
-If you prefer not to use the page's title, or the title is absent, you can
-override the text with the `cover_image_text` property.
-```text
----
-cover_image_text: Example
----
-```
-
-Both `title` and `cover_image_text` may contain [special formatting](https://imagemagick.org/script/escape.php), which
-adds support for line breaks. (Note the escaped literal backslash. I honestly have no idea how or why this works.)
-```text
----
-cover_image_text: 'This is a test post\nProceed with caution\neverybody\\\\nobody'
----
-```
-
-Or alternatively:
-```text
----
-cover_image_text: "This is a test post\nProceed with caution\neverybody\\\\\\\\nobody"
----
-```
-
-You can use the following liquid tag to get the path to the generated image (or false if not generated):
-```text
-{% generated_image_path %}
 ```
 
 ### Overriding or Disabling Image Generation
