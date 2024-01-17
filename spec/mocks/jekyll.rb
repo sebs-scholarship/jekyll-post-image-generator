@@ -10,9 +10,11 @@ end
 class Document
   attr_accessor :basename_without_ext
   attr_writer :data
+  attr_reader :path
 
-  def initialize(basename_without_ext)
+  def initialize(basename_without_ext, path = '')
     @basename_without_ext = basename_without_ext
+    @path = path
   end
 
   def data
@@ -27,10 +29,11 @@ class Collection
 end
 
 class Site
-  attr_accessor :source
+  attr_accessor :source, :config
 
   def initialize(source)
     @source = source
+    @config = {}
   end
 
   def posts

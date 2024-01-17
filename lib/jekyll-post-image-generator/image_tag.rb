@@ -10,6 +10,8 @@ module Jekyll
 
       return nil if post.nil?
 
+      return post.data['cover_image'] if post.data.key?('cover_image')
+
       image_path = create_path(output_dir(site.config), post)
 
       return "/#{image_path}" if File.exist?(image_path)
