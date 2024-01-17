@@ -60,7 +60,8 @@ Example:
 {% generated_image_path %}
 ```
 
-If an image was generated for the post, this tag returns the path to the generated image, or `false` otherwise. 
+If an image was generated for the post, or a cover image was used, this tag returns the path to the
+image, or `false` otherwise. 
 
 This can be used to display the output image on the page
 ```html
