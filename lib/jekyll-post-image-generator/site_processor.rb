@@ -54,10 +54,6 @@ module Jekyll
         && (set?('title', data) || set?('cover_image_text', data)) \
         && !File.exist?(output_path(doc.basename_without_ext))
       end
-
-      def set?(key, data)
-        data.key?(key) && !data[key].nil? && !data[key].strip.empty?
-      end
     end
   end
 end
