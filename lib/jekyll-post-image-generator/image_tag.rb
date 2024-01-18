@@ -10,7 +10,7 @@ module Jekyll
 
       return nil if post.nil?
 
-      return post.data['cover_image'] if post.data.key?('cover_image')
+      return post.data['cover_image'] if set?('cover_image', post.data)
 
       image_path = create_path(output_dir(site.config), post)
 
