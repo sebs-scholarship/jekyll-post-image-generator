@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1.168.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.7'
           bundler-cache: true
@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1.168.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.7'
           bundler-cache: true
@@ -79,7 +79,7 @@ jobs:
     steps:
       - name: Notify on success
         if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
-        uses: appleboy/discord-action@v1.0.0
+        uses: appleboy/discord-action@v1
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
@@ -91,7 +91,7 @@ jobs:
 
       - name: Notify on failure
         if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
-        uses: appleboy/discord-action@v1.0.0
+        uses: appleboy/discord-action@v1
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
