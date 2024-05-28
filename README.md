@@ -7,7 +7,18 @@ Automatically generate images for posts on your Jekyll site.
 ---
 
 ## Quickstart
-### Requirements
+### Docker
+Skip installing ImageMagick and Montserrat by using the leviem1/jpig Docker image.
+
+This container is a wrapper of jekyll/builder, and accepts Jekyll commands
+```bash
+docker run -v /path/to/jekyll/site:/srv/jekyll \
+-p 4000:4000 \
+--rm leviem1/jpig:0.0.10 \
+jekyll serve --future --drafts
+```
+
+### Manual Setup
 In order to run this gem, you must have [ImageMagick](https://imagemagick.org/) installed.
 
 Additionally, make sure the default font, [Montserrat](https://fonts.google.com/specimen/Montserrat), is downloaded and installed, or configure the plugin
