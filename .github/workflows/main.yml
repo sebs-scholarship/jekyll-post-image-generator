@@ -68,6 +68,41 @@ jobs:
           prerelease: ${{ contains(github.ref_name, '-rc-') }}
           draft: true
 
+  docker:
+    needs:
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            leviem1/jpig
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
   notify:
     name: Send job complete notification
     runs-on: ubuntu-latest
@@ -75,10 +110,11 @@ jobs:
       - lint
       - test
       - release
+      - docker
     if: always() && (github.ref_type == 'tag' || github.ref_name == 'main')
     steps:
       - name: Notify on success
-        if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success'
+        if: needs.lint.result == 'success' && needs.test.result == 'success' && needs.release.result == 'success' && needs.docker.result == 'success'
         uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
@@ -90,7 +126,7 @@ jobs:
             https://github.com/sebs-scholarship/jekyll-post-image-generator/releases/tag/${{ github.ref_name }}
 
       - name: Notify on failure
-        if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure'
+        if: needs.lint.result == 'failure' || needs.test.result == 'failure' || needs.release.result == 'failure' || needs.docker.result == 'failure'
         uses: appleboy/discord-action@v1.0.0
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
