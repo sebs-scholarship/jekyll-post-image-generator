@@ -77,6 +77,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -84,6 +87,7 @@ jobs:
           images: |
             leviem1/jpig
           tags: |
+            type=edge,branch=main
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
@@ -102,6 +106,8 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   notify:
     name: Send job complete notification
