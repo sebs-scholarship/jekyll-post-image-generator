@@ -86,6 +86,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
 
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'
