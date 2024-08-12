@@ -27,7 +27,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.7'
+          ruby-version: '3.2'
           bundler-cache: true
 
       - name: lint with rubocop
@@ -47,7 +47,7 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.7'
+          ruby-version: '3.2'
           bundler-cache: true
 
       - name: test with rspec
@@ -76,6 +76,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -83,10 +84,9 @@ jobs:
           images: |
             leviem1/jpig
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
 
       - name: Login to DockerHub
         if: github.event_name != 'pull_request'

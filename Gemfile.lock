@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jekyll-post-image-generator (0.0.1)
+    jekyll-post-image-generator (0.0.13)
       jekyll (>= 4.3.1)
       mini_magick (>= 4.11.0)
 
@@ -19,10 +19,12 @@ GEM
       http_parser.rb (~> 0)
     eventmachine (1.2.7)
     ffi (1.16.3)
+    ffi (1.16.3-x64-mingw-ucrt)
     forwardable-extended (2.6.0)
-    google-protobuf (3.25.1)
     google-protobuf (3.25.1-arm64-darwin)
+    google-protobuf (3.25.1-x64-mingw-ucrt)
     google-protobuf (3.25.1-x86_64-darwin)
+    google-protobuf (3.25.1-x86_64-linux)
     http_parser.rb (0.8.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -103,12 +105,15 @@ GEM
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
     safe_yaml (1.0.5)
-    sass-embedded (1.63.6)
-      google-protobuf (~> 3.23)
-      rake (>= 13.0.0)
     sass-embedded (1.63.6-arm64-darwin)
       google-protobuf (~> 3.23)
+    sass-embedded (1.63.6-x64-mingw-ucrt)
+      google-protobuf (~> 3.23)
     sass-embedded (1.63.6-x86_64-darwin)
+      google-protobuf (~> 3.23)
+    sass-embedded (1.63.6-x86_64-linux-gnu)
+      google-protobuf (~> 3.23)
+    sass-embedded (1.63.6-x86_64-linux-musl)
       google-protobuf (~> 3.23)
     strscan (3.1.0)
     terminal-table (3.0.2)
@@ -117,8 +122,10 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
-  ruby
   universal-darwin-22
+  x64-mingw
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   bundler
@@ -128,4 +135,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   2.4.2
+   2.5.11

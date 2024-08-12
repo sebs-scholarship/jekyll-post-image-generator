@@ -3,3 +3,7 @@ vendor/
 .github/
 scripts/
 spec/
+Dockerfile
+README.md
+CONTRIBUTING.md
+LICENSE
