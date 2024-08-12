@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name             = 'jekyll-post-image-generator'
-  spec.version          = '0.0.1'
+  spec.version          = '0.0.13'
   spec.authors          = ['Levi Muniz', 'https://github.com/sebs-scholarship/jekyll-post-image-generator/graphs/contributors']
   spec.email            = ['levi.muniz17@gmail.com']
   spec.summary          = 'A Jekyll plugin to generate a title image for your Jekyll posts'

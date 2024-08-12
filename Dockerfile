@@ -6,6 +6,15 @@ LABEL maintainer="Levi Muniz <levi.muniz17@gmail.com>"
 RUN apk add --no-cache imagemagick
 
 # Install default font
-RUN wget 'https://font.download/dl/font/montserrat.zip' -O font.zip
+ADD 'https://font.download/dl/font/montserrat.zip' font.zip
 RUN unzip font.zip -d /usr/share/fonts/montserrat
 RUN rm font.zip
+
+# Install jekyll-post-image-generator
+RUN mkdir /app
+WORKDIR /app
+COPY ./ ./
+RUN gem build jekyll-post-image-generator.gemspec -o jekyll-post-image-generator.gem
+RUN gem install jekyll-post-image-generator.gem
+WORKDIR /srv/jekyll
+RUN rm -rf /app
