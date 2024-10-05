@@ -27,7 +27,9 @@ def rand_source
 end
 
 def get_first(command_list)
-  command_list[1]
+  return command_list[1] unless command_list[1] == 'convert'
+
+  command_list[2]
 end
 
 def get_last(command_list)
