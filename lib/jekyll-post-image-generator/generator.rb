@@ -10,19 +10,24 @@ module Jekyll
 
       def initialize(
         config = {},
-        processor = nil
+        processor: nil
       )
         super(config)
-        @config = Utils.deep_merge_hashes(
-          DEFAULTS,
-          config.fetch('jekyll-post-image-generator', {})
-        )
-        @processor = processor || SiteProcessor.new(config)
+
+        @config = config.fetch('jekyll-post-image-generator', {})
+
+        @processor = if !processor.nil?
+                       processor
+                     else
+                       SiteProcessor.new(
+                         ImageGenerator.new(ImageGeneratorProperties.from_hash(@config)),
+                         output_dir: @config.fetch('output_directory', nil)
+                       )
+                     end
       end
 
       def generate(site)
-        output_dir = @config.fetch('output_directory', File.join('assets', 'images'))
-        FileUtils.mkdir_p(output_dir) unless File.exist?(output_dir)
+        FileUtils.mkdir_p(@processor.output_dir) unless File.exist?(@processor.output_dir)
         @processor.process(site)
       end
     end

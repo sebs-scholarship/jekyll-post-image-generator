@@ -15,6 +15,8 @@ module MiniMagick
       @@last_instance = instance
     end
 
+    def call; end
+
     def self.last_instance
       @@last_instance
     end

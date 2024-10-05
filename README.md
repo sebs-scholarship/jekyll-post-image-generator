@@ -97,9 +97,16 @@ directory (`assets/images/` by default).
 You can modify the behavior of the plugin by adding any of the below properties to your `_config.yml`.
 ```yaml
 jekyll-post-image-generator:
-  # The base image to add text to
-  # default: "_background_image.png"
-  background_image: _background_image.png
+  # The base image to add text to (overrides image generation)
+  # default: ""
+  image_path: _background_image.jpg
+  
+  # The background color for the generated image
+  # default: #2054df
+  image_color: "#2054df"
+  
+  # The size of the generated image
+  image_size: "2048x1024"
   
   # The directory to write generated images to
   # default: "assets/images/"
@@ -113,14 +120,13 @@ jekyll-post-image-generator:
   # default: max_pointsize / 2
   min_pointsize: 100
   
-  # The maximum number of columns/characters before wrapping
+  # The maximum number of characters before wrapping
   # default: 30
-  max_columns_per_line: 30
+  max_chars_per_line: 30
   
   # The name of the font for the title text
   # default: "montserrat-Light" 
   font: montserrat-Light
-  
   
   # The color of the title text
   # default: "white"
