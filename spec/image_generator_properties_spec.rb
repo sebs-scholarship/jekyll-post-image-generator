@@ -13,7 +13,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties) do
       expect(properties.font_properties.max_pointsize).to eql(200)
       expect(properties.font_properties.min_pointsize).to eql(100)
       expect(properties.image_properties.max_chars_per_line).to eql(30)
-      expect(properties.image_properties.image_path).to eql('_background_image.png')
+      expect(properties.image_properties.image_path).to be_nil
       expect(properties.image_properties.image_color).to eql('#2054df')
       expect(properties.image_properties.image_size).to eql('2048x1024')
     end

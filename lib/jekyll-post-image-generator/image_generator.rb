@@ -50,7 +50,7 @@ module Jekyll
     # Configuration properties for generated images
     class ImageGeneratorImageProperties
       def initialize(
-        image_path: '_background_image.png', # TODO: Default to nil
+        image_path: nil,
         image_color: '#2054df',
         image_size: '2048x1024',
         max_chars_per_line: 30
