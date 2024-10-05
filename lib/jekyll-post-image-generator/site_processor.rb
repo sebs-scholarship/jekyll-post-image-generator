@@ -10,10 +10,10 @@ module Jekyll
 
       def initialize(
         generator,
-        output_dir: DEFAULT_OUTPUT_DIR
+        output_dir: nil
       )
         @generator = generator
-        @output_dir = output_dir
+        @output_dir = output_dir || DEFAULT_OUTPUT_DIR
       end
 
       def process(site)
