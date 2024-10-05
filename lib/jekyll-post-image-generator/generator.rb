@@ -20,8 +20,8 @@ module Jekyll
                        processor
                      else
                        SiteProcessor.new(
-                         @config.fetch('output_directory', nil),
-                         ImageGenerator.new(ImageGeneratorProperties.from_hash(@config))
+                         ImageGenerator.new(ImageGeneratorProperties.from_hash(@config)),
+                         output_dir: @config.fetch('output_directory', nil)
                        )
                      end
       end
