@@ -183,7 +183,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(properties)
       generator.generate('', 'dest')
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_first(last_command)).to eql('canvas:test')
+      expect(last_command.include?('canvas:test')).to be true
     end
 
     it 'generates an image with provided size' do

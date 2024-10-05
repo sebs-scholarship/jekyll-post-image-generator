@@ -135,7 +135,7 @@ module Jekyll
         if !@properties.image_properties.image_path.nil?
           magick << @properties.image_properties.image_path
         else
-          magick.canvas(@properties.image_properties.image_color).size(@properties.image_properties.image_size)
+          magick.size(@properties.image_properties.image_size).canvas(@properties.image_properties.image_color)
         end
 
         magick
