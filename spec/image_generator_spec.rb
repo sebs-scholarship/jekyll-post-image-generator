@@ -9,7 +9,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       params = { 'image_path' => 'test' }
       properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_hash(params)
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(properties)
-      generator.generate('', rand_dest)
+      generator.generate('', 'dest')
       last_command = MiniMagick::Tool.last_instance.command
       expect(get_first(last_command)).to eql('test')
     end
@@ -17,10 +17,9 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
     it 'uses the correct output file name' do
       properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.new
       generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(properties)
-      dest = rand_dest
-      generator.generate('', dest)
+      generator.generate('', 'dest')
       last_command = MiniMagick::Tool.last_instance.command
-      expect(get_last(last_command)).to eql(dest)
+      expect(get_last(last_command)).to eql('dest')
     end
 
     it 'uses the proper font' do
@@ -176,6 +175,24 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       generator.generate(make_string(10), 'dest')
       last_command = MiniMagick::Tool.last_instance.command
       expect(get_opt_value(last_command, '-annotate')).to eql('+0+0')
+    end
+
+    it 'generates an image with provided color' do
+      params = { 'image_path' => nil, 'image_color' => 'test' }
+      properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_hash(params)
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(properties)
+      generator.generate('', 'dest')
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_first(last_command)).to eql('canvas:test')
+    end
+
+    it 'generates an image with provided size' do
+      params = { 'image_path' => nil, 'image_size' => 'test' }
+      properties = Jekyll::JekyllPostImageGenerator::ImageGeneratorProperties.from_hash(params)
+      generator = Jekyll::JekyllPostImageGenerator::ImageGenerator.new(properties)
+      generator.generate('', 'dest')
+      last_command = MiniMagick::Tool.last_instance.command
+      expect(get_opt_value(last_command, '-size')).to eql('test')
     end
   end
 end
