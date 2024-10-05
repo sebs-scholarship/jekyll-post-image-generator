@@ -8,14 +8,8 @@ require 'jekyll-post-image-generator/image_tag'
 require 'jekyll-post-image-generator/utils'
 
 module Jekyll
+  # Module for JekyllPostImageGenerator
   module JekyllPostImageGenerator
-    DEFAULTS = {
-      'background_image' => '_background_image.png',
-      'output_directory' => File.join('assets', 'images'),
-      'max_pointsize' => 200,
-      'max_columns_per_line' => 30,
-      'font' => 'montserrat-Light',
-      'font_color' => 'white'
-    }.freeze
+    DEFAULT_OUTPUT_DIR = File.join('assets', 'images')
   end
 end

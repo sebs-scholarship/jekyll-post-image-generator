@@ -5,11 +5,11 @@ require 'tempfile'
 require 'spec_helper'
 require 'mocks/liquid'
 
-describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
+describe(Jekyll::JekyllPostImageGenerator::ImageTag) do
   context 'when post image is rendered' do
     it 'should return path to image' do
       site = Site.new(source_dir)
-      output_dir = Jekyll::JekyllPostImageGenerator::DEFAULTS['output_directory']
+      output_dir = Jekyll::JekyllPostImageGenerator::DEFAULT_OUTPUT_DIR
       expanded = File.expand_path(output_dir)
       FileUtils.mkdir_p(expanded)
       file = Tempfile.new(['', '.jpg'], expanded)
@@ -25,7 +25,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
         site.posts.docs << doc
         parse_context = Liquid::ParseContext.new
         parse_context.line_number = 1
-        image_tag = Jekyll::ImageTag.parse('', '', '', parse_context)
+        image_tag = Jekyll::JekyllPostImageGenerator::ImageTag.parse('', '', '', parse_context)
         context = Context.new({ :site => site }, { 'page' => { 'path' => "#{source_dir}/#{name}" } }) # rubocop:disable Style/HashSyntax
 
         expect(image_tag.render(context)).to eql("/#{output_dir}/#{name}")
@@ -37,7 +37,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
     RSpec.shared_examples 'no cover image' do |value|
       it 'should not return path to cover image' do
         site = Site.new(source_dir)
-        output_dir = Jekyll::JekyllPostImageGenerator::DEFAULTS['output_directory']
+        output_dir = Jekyll::JekyllPostImageGenerator::DEFAULT_OUTPUT_DIR
         expanded = File.expand_path(output_dir)
         FileUtils.mkdir_p(expanded)
         file = Tempfile.new(['', '.jpg'], expanded)
@@ -53,7 +53,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
           site.posts.docs << doc
           parse_context = Liquid::ParseContext.new
           parse_context.line_number = 1
-          image_tag = Jekyll::ImageTag.parse('', '', '', parse_context)
+          image_tag = Jekyll::JekyllPostImageGenerator::ImageTag.parse('', '', '', parse_context)
           context = Context.new({ :site => site }, { 'page' => { 'path' => "#{source_dir}/#{name}" } }) # rubocop:disable Style/HashSyntax
 
           expect(image_tag.render(context)).not_to eql(value)
@@ -84,7 +84,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       site.posts.docs << doc
       parse_context = Liquid::ParseContext.new
       parse_context.line_number = 1
-      image_tag = Jekyll::ImageTag.parse('', '', '', parse_context)
+      image_tag = Jekyll::JekyllPostImageGenerator::ImageTag.parse('', '', '', parse_context)
       context = Context.new({ :site => site }, { 'page' => { 'path' => "#{source_dir}/test-path" } }) # rubocop:disable Style/HashSyntax
 
       expect(image_tag.render(context)).to be_nil
@@ -99,7 +99,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       site.posts.docs << doc
       parse_context = Liquid::ParseContext.new
       parse_context.line_number = 1
-      image_tag = Jekyll::ImageTag.parse('', '', '', parse_context)
+      image_tag = Jekyll::JekyllPostImageGenerator::ImageTag.parse('', '', '', parse_context)
       context = Context.new({ :site => site }, { 'page' => { 'path' => "#{source_dir}/test-path" } }) # rubocop:disable Style/HashSyntax
 
       expect(image_tag.render(context)).to eql('test-cover-image')
@@ -111,7 +111,7 @@ describe(Jekyll::JekyllPostImageGenerator::ImageGenerator) do
       site = Site.new(source_dir)
       parse_context = Liquid::ParseContext.new
       parse_context.line_number = 1
-      image_tag = Jekyll::ImageTag.parse('', '', '', parse_context)
+      image_tag = Jekyll::JekyllPostImageGenerator::ImageTag.parse('', '', '', parse_context)
       context = Context.new({ :site => site }, { 'page' => { 'path' => "#{source_dir}/test-path" } }) # rubocop:disable Style/HashSyntax
 
       expect(image_tag.render(context)).to be_nil

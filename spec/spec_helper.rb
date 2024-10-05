@@ -68,6 +68,12 @@ def dirname(path)
   File.dirname(path)
 end
 
+def make_string(count, char = '0')
+  str = ''
+  count.times { str += char }
+  str
+end
+
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus

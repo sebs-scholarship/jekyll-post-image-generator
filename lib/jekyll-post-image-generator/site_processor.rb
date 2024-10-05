@@ -6,18 +6,14 @@ module Jekyll
   module JekyllPostImageGenerator
     # Processes the Jekyll site and generates new images for posts
     class SiteProcessor
-      attr_reader :config
+      attr_reader :output_dir
 
       def initialize(
-        config = {},
-        generator = ImageGenerator.new(
-          config.fetch('background_image', '_background_image.png'),
-          ImageGeneratorProperties.from_dict(config)
-        )
+        generator,
+        output_dir: DEFAULT_OUTPUT_DIR
       )
-        @config = config
         @generator = generator
-        @output_dir = config.fetch('output_directory', File.join('assets', 'images'))
+        @output_dir = output_dir
       end
 
       def process(site)
