@@ -1,4 +1,4 @@
-FROM jekyll/builder:4.2.2
+FROM jekyll/builder:4.3.1
 
 LABEL maintainer="Levi Muniz <levi.muniz17@gmail.com>"
 
